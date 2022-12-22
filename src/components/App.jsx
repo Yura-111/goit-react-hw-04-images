@@ -27,12 +27,12 @@ import { ImgSkeleton } from 'components/ImgSkeleton/ImgSkeleton';
               if (data.hits.length < 12) {
                 setIsMoreBtnHide(true);
               }
-      const filteredImages = data.hits.map((elements) => {
-        const { id, webformatURL, largeImageURL, tags } = elements;
-        const renderImages = { id, webformatURL, largeImageURL, tags };
+              const filteredImages = data.hits.map((elements) => {
+                const { id, webformatURL, largeImageURL, tags } = elements;
+                const renderImages = { id, webformatURL, largeImageURL, tags };
 
-        return renderImages;
-      });
+                return renderImages;
+              });
     
               if (data.total === 0) {
                 setIsLoading(false);
