@@ -1,43 +1,37 @@
-import { Component } from 'react';
+import { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Backdrop } from './Modal.styled';
 import { AppStyled } from 'components/App.styled';
 
-export class Modal extends Component {
-  static propTypes = {
-    children: PropTypes.node.isRequired,
-    onClose: PropTypes.func.isRequired
-};
+export const Modal = ({ onToggle, children }) => {
+  useEffect(() => {
+    window.addEventListener('keydown', handleEscPress);
+    return () => {
+      window.removeEventListener('keydown', handleEscPress);
+    };
+  });
 
-
-  componentDidMount() {
-    window.addEventListener('keydown', this.handleEscPress);
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('keydown', this.handleEscPress);
-  }
-
-  handleEscPress = event => {
-    if (event.code === 'Escape') {
-      this.props.onClose();
+  const handleEscPress = evt => {
+    if (evt.code === 'Escape') {
+      onToggle();
     }
   };
 
-  handleBackdropClick = event => {
+  const handleBackdropClick = event => {
     if (event.currentTarget === event.target) {
-      this.props.onClose();
+      onToggle();
     }
   };
-
-  render() {
-    const { children } = this.props;
     return (
-      <Backdrop onClick={this.handleBackdropClick}>
+      <Backdrop onClick={handleBackdropClick}>
         <AppStyled boxShadow="box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px, rgb(51, 51, 51) 0px 0px 0px 3px;">
           {children}
         </AppStyled>
       </Backdrop>);
     
   }
-}
+
+  Modal.propTypes = {
+    children: PropTypes.node.isRequired,
+    onclose: PropTypes.func,
+  };

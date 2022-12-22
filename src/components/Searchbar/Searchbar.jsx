@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { FaSearch } from 'react-icons/fa';
 import { toast } from 'react-toastify';
@@ -6,23 +6,14 @@ import { IconButton } from 'components/IconButton/IconButton';
 import { StyledBar, StyledForm, StyledInput, Styledlabel } from './Searchbar.styles';
 
 
-export class SearchBar extends Component {
-  static propTypes = {
-      isLoading: PropTypes.bool.isRequired,
+export const SearchBar = ({ isLoading, onSubmit, searchQuerry }) => {
+  const [searchInput, setSearchInput] = useState('');
+
+  const handleInputChange = evt => {
+    setSearchInput(evt.currentTarget.value);
   };
 
-  state = {
-    searchInput: '',
-  };
-
-  handleInputChange = evt => {
-    this.setState({
-      searchInput: evt.currentTarget.value,
-    });
-  };
-
-  handleSubmit = evt => {
-    const { searchInput } = this.state;
+  const handleSubmit = evt => {
     evt.preventDefault();
 
     if (searchInput.trim() === '') {
@@ -38,9 +29,9 @@ export class SearchBar extends Component {
       return;
     }
 
-    if (this.props.searchQuerry === searchInput.trim()) {
+    if (searchQuerry === searchInput.trim()) {
       toast.info(
-        `The images you requested ${this.props.searchQuerry} have already been found and displayed`,
+        `The images you requested ${searchQuerry} have already been found and displayed`,
         {
           position: 'top-right',
           autoClose: 3000,
@@ -51,31 +42,21 @@ export class SearchBar extends Component {
           progress: undefined,
         }
       );
-
-      this.setState({
-        searchInput: '',
-      });
+      setSearchInput('');
 
       return;
     }
 
-    this.props.onSubmit(searchInput.trim());
+    onSubmit(searchInput.trim());
 
-    this.setState({
-      searchInput: '',
-    });
+    setSearchInput('');
   };
-
-  render() {
-    const { searchInput } = this.state;
-    const { isLoading } = this.props;
-
     return (
       <StyledBar>
-        <StyledForm onSubmit={this.handleSubmit}>
+        <StyledForm onSubmit={handleSubmit}>
           <Styledlabel htmlFor="search">Search</Styledlabel>
           <StyledInput
-            onChange={this.handleInputChange}
+            onChange={handleInputChange}
             value={searchInput}
             name="search"
             autoComplete="off"
@@ -90,10 +71,10 @@ export class SearchBar extends Component {
       </StyledBar>
     );
   }
-}
 
 
 
-// SearchBar.propType = {
-//   isLoading: PropTypes.bool.isRequired,
-// };
+
+SearchBar.propType = {
+  isLoading: PropTypes.bool.isRequired,
+};
