@@ -77,4 +77,6 @@ export const SearchBar = ({ isLoading, onSubmit, searchQuerry }) => {
 
 SearchBar.propType = {
   isLoading: PropTypes.bool.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  searchQuerry: PropTypes.string.isRequired,
 };

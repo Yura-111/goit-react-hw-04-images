@@ -19,9 +19,10 @@ import { ImgSkeleton } from 'components/ImgSkeleton/ImgSkeleton';
       const [isMoreBtnHide, setIsMoreBtnHide] = useState(false);
     
       useEffect(() => {
-        if (!searchQuerry) {
+        if (!searchQuerry) {          
           return;
         } else {
+          loderControlTogle()
           pixabayApi(searchQuerry, page)
             .then(data => {
               if (data.hits.length < 12) {
@@ -50,18 +51,21 @@ import { ImgSkeleton } from 'components/ImgSkeleton/ImgSkeleton';
             });
         }
       }, [searchQuerry, page]);
+
+      const loderControlTogle = () => {
+          setIsLoading(!images.isLoading)
+      };
+    
     
       const handleSubmit = searchQuerry => {
         setSearchQuerry(searchQuerry);
         setPage(1);
         setImages([]);
-        setIsLoading(!searchQuerry.isLoading);
         setIsMoreBtnHide(false);
       };
     
       const handleMoreSearch = () => {
         setPage(page => page + 1);
-        setIsLoading(!images.isLoading);
       };
 
     return (
