@@ -22,7 +22,12 @@ import { ImgSkeleton } from 'components/ImgSkeleton/ImgSkeleton';
         if (!searchQuerry) {          
           return;
         } else {
-          loderControlTogle()
+
+          
+      const loderControl = () => {
+        setIsLoading(!images.isLoading)
+    };
+          loderControl()
           pixabayApi(searchQuerry, page)
             .then(data => {
               if (data.hits.length < 12) {
@@ -50,11 +55,8 @@ import { ImgSkeleton } from 'components/ImgSkeleton/ImgSkeleton';
               setError(error);
             });
         }
-      }, [searchQuerry, page]);
+      }, [searchQuerry, images.isLoading, page]);
 
-      const loderControlTogle = () => {
-          setIsLoading(!images.isLoading)
-      };
     
     
       const handleSubmit = searchQuerry => {
